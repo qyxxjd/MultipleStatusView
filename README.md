@@ -72,10 +72,15 @@ MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写
 
 ##注意事项
 加载中视图的id必须为：loading_view
+
 空视图的id必须为：empty_view
+
 错误视图的id必须为：error_view
+
 无网络视图的id必须为：no_network_view
+
 内容视图的id必须为：content_view
+
 示例：
 ```xml
 <RelativeLayout
