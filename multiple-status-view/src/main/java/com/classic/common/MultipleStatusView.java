@@ -129,7 +129,7 @@ public class MultipleStatusView extends RelativeLayout {
         viewStatus = STATUS_NO_NETWORK;
         return showViewById(R.id.no_network_view);
     }
-    /** 显示内容 */
+    /** 显示内容视图 */
     public final View showContent() {
         viewStatus = STATUS_CONTENT;
         return showViewById(R.id.content_view);
