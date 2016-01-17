@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.classic.common.MultipleStatusView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main_multiplestatusview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:loadingView="@layout/custom_loading_view"
+        app:emptyView="@layout/custom_empty_view"
+        app:errorView="@layout/custom_error_view"
+        app:noNetworkView="@layout/custom_no_network_view"
+        app:contentView="@layout/main_content"
+        >
+
+        <!--
+        内容视图可以直接在app:contentView属性指定layout文件，如上。
+
+        第二种用法：
+        直接写在MultipleStatusView节点内，如下。
+        <TextView
+            android:id="@+id/content_view"
+            android:text="内容视图"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            />
+        -->
+
+    </com.classic.common.MultipleStatusView>
+
+    <com.github.clans.fab.FloatingActionMenu
+        style="@style/FabMenu"
+        android:id="@+id/main_fab_menu"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        app:menu_colorNormal="#FF4081"
+        app:menu_colorPressed="#E91E63"
+        app:menu_colorRipple="#C2185B"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true" >
+
+        <com.github.clans.fab.FloatingActionButton
+            style="@style/FabMenu.Buttons"
+            android:id="@+id/main_fab_loading"
+            android:src="@mipmap/ic_fab_loading"
+            app:fab_label="显示加载中视图" />
+        <com.github.clans.fab.FloatingActionButton
+            style="@style/FabMenu.Buttons"
+            android:id="@+id/main_fab_empty"
+            android:src="@mipmap/ic_fab_empty"
+            app:fab_label="显示空视图" />
+        <com.github.clans.fab.FloatingActionButton
+            style="@style/FabMenu.Buttons"
+            android:id="@+id/main_fab_error"
+            android:src="@mipmap/ic_fab_error"
+            app:fab_label="显示错误视图" />
+        <com.github.clans.fab.FloatingActionButton
+            style="@style/FabMenu.Buttons"
+            android:id="@+id/main_fab_no_network"
+            android:src="@mipmap/ic_fab_no_network"
+            app:fab_label="显示网络异常视图" />
+        <com.github.clans.fab.FloatingActionButton
+            style="@style/FabMenu.Buttons"
+            android:id="@+id/main_fab_content"
+            android:src="@mipmap/ic_fab_content"
+            app:fab_label="显示内容视图" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</RelativeLayout>
