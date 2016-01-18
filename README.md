@@ -2,7 +2,7 @@
 
 [apk下载](https://github.com/qyxxjd/MultipleStatusView/blob/master/apk/MultipleStatusView.apk?raw=true)
 
-![](https://github.com/qyxxjd/MultipleStatusView/blob/master/screenshots/demo.png)
+![](https://github.com/qyxxjd/MultipleStatusView/blob/master/screenshots/demo.gif)
 
 ##使用
 ```gradle
