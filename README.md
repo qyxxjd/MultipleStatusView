@@ -90,7 +90,6 @@ MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写
 - 错误视图内对应的view id：error_retry_view
 - 无网络视图内对应的view id：no_network_retry_view
 
-示例：
 ```xml
 <RelativeLayout
     android:id="@+id/loading_view"
@@ -99,6 +98,25 @@ MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写
 
     ...
 
+</RelativeLayout>
+
+<RelativeLayout
+    android:id="@+id/error_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/error_retry_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/ic_error"
+        />
+
+    <TextView
+        style="@style/MultipleStatusView.Content"
+        android:layout_below="@id/error_retry_view"
+        android:text="@string/error_view_hint"/>
 </RelativeLayout>
 ```
 
