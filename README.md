@@ -84,6 +84,10 @@ MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写
 - 错误视图的id必须为：error_view
 - 无网络视图的id必须为：no_network_view
 - 内容视图的id必须为：content_view
+如果需要点击某个view进行重试,可以设置如下id:
+- 空视图内对应的view id：empty_retry_view
+- 错误视图内对应的view id：error_retry_view
+- 无网络视图内对应的view id：no_network_retry_view
 
 示例：
 ```xml
@@ -96,6 +100,8 @@ MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写
 
 </RelativeLayout>
 ```
+
+详细使用见demo示例。
 
 ##关于
 * Blog: [http://blog.csdn.net/qy1387](http://blog.csdn.net/qy1387)
