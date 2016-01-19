@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 /**
@@ -21,6 +22,11 @@ public class MultipleStatusView extends RelativeLayout {
 
     private static final int NULL_RESOURCE_ID   = -1;
 
+    private View emptyView;
+    private View errorView;
+    private View loadingView;
+    private View noNetworkView;
+    private View contentView;
     private View emptyRetryView;
     private View errorRetryView;
     private View noNetworkRetryView;
@@ -31,7 +37,10 @@ public class MultipleStatusView extends RelativeLayout {
     private int  contentViewResId;
     private int  viewStatus;
 
-    private final LayoutInflater inflater;
+    private LayoutInflater inflater;
+    private OnClickListener onRetryClickListener;
+    private final ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
     public MultipleStatusView(Context context) {
         this(context, null);
@@ -46,43 +55,24 @@ public class MultipleStatusView extends RelativeLayout {
 
         final TypedArray a =
             context.obtainStyledAttributes(attrs, R.styleable.MultipleStatusView, defStyleAttr, 0);
-        inflater = LayoutInflater.from(context);
-        try {
-            emptyViewResId =
-                a.getResourceId(R.styleable.MultipleStatusView_emptyView, R.layout.empty_view);
-            errorViewResId =
-                a.getResourceId(R.styleable.MultipleStatusView_errorView, R.layout.error_view);
-            loadingViewResId =
-                a.getResourceId(R.styleable.MultipleStatusView_loadingView, R.layout.loading_view);
-            noNetworkViewResId = a.getResourceId(R.styleable.MultipleStatusView_noNetworkView,
-                R.layout.no_network_view);
-            contentViewResId = a.getResourceId(R.styleable.MultipleStatusView_contentView,
-                NULL_RESOURCE_ID);
 
-            inflater.inflate(emptyViewResId, this, true);
-            inflater.inflate(errorViewResId, this, true);
-            inflater.inflate(loadingViewResId, this, true);
-            inflater.inflate(noNetworkViewResId, this, true);
-            if(contentViewResId != NULL_RESOURCE_ID){
-                inflater.inflate(contentViewResId, this, true);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            a.recycle();
-        }
+        emptyViewResId =
+            a.getResourceId(R.styleable.MultipleStatusView_emptyView, R.layout.empty_view);
+        errorViewResId =
+            a.getResourceId(R.styleable.MultipleStatusView_errorView, R.layout.error_view);
+        loadingViewResId =
+            a.getResourceId(R.styleable.MultipleStatusView_loadingView, R.layout.loading_view);
+        noNetworkViewResId = a.getResourceId(R.styleable.MultipleStatusView_noNetworkView,
+            R.layout.no_network_view);
+        contentViewResId = a.getResourceId(R.styleable.MultipleStatusView_contentView,
+            NULL_RESOURCE_ID);
+        a.recycle();
     }
 
     @Override protected void onFinishInflate() {
         super.onFinishInflate();
-        initRetryView();
+        inflater = LayoutInflater.from(getContext());
         showContent();
-    }
-
-    private void initRetryView(){
-        emptyRetryView = findViewById(R.id.empty_retry_view);
-        errorRetryView = findViewById(R.id.error_retry_view);
-        noNetworkRetryView = findViewById(R.id.no_network_retry_view);
     }
 
     /** 获取当前状态 */
@@ -92,59 +82,91 @@ public class MultipleStatusView extends RelativeLayout {
 
     /**
      * 设置重试点击事件
-     * @param onRetryClickListener
+     * @param onRetryClickListener 重试点击事件
      */
     public void setOnRetryClickListener(OnClickListener onRetryClickListener) {
-        if(null == onRetryClickListener){
-            return;
-        }
-        if(null != emptyRetryView){
-            emptyRetryView.setOnClickListener(onRetryClickListener);
-        }
-        if(null != errorRetryView){
-            errorRetryView.setOnClickListener(onRetryClickListener);
-        }
-        if(null != noNetworkRetryView){
-            noNetworkRetryView.setOnClickListener(onRetryClickListener);
-        }
+        this.onRetryClickListener = onRetryClickListener;
     }
 
     /** 显示空视图 */
-    public final View showEmpty() {
+    public final void showEmpty() {
         viewStatus = STATUS_EMPTY;
-        return showViewById(R.id.empty_view);
+        if(null == emptyView){
+            emptyView = inflater.inflate(emptyViewResId, null);
+            emptyRetryView = emptyView.findViewById(R.id.empty_retry_view);
+            if(null != onRetryClickListener && null != emptyRetryView){
+                emptyRetryView.setOnClickListener(onRetryClickListener);
+            }
+            addView(emptyView, 0, layoutParams);
+        }
+        showViewByStatus(viewStatus);
     }
     /** 显示错误视图 */
-    public final View showError() {
+    public final void showError() {
         viewStatus = STATUS_ERROR;
-        return showViewById(R.id.error_view);
+        if(null == errorView){
+            errorView = inflater.inflate(errorViewResId, null);
+            errorRetryView = errorView.findViewById(R.id.error_retry_view);
+            if(null != onRetryClickListener && null != errorRetryView){
+                errorRetryView.setOnClickListener(onRetryClickListener);
+            }
+            addView(errorView,0,layoutParams);
+        }
+        showViewByStatus(viewStatus);
     }
     /** 显示加载中视图 */
-    public final View showLoading() {
+    public final void showLoading() {
         viewStatus = STATUS_LOADING;
-        return showViewById(R.id.loading_view);
+        if(null == loadingView){
+            loadingView = inflater.inflate(loadingViewResId, null);
+            addView(loadingView,0,layoutParams);
+        }
+        showViewByStatus(viewStatus);
     }
     /** 显示无网络视图 */
-    public final View showNoNetwork() {
+    public final void showNoNetwork() {
         viewStatus = STATUS_NO_NETWORK;
-        return showViewById(R.id.no_network_view);
-    }
-    /** 显示内容视图 */
-    public final View showContent() {
-        viewStatus = STATUS_CONTENT;
-        return showViewById(R.id.content_view);
+        if(null == noNetworkView){
+            noNetworkView = inflater.inflate(noNetworkViewResId, null);
+            noNetworkRetryView = noNetworkView.findViewById(R.id.no_network_retry_view);
+            if(null != onRetryClickListener && null != noNetworkRetryView){
+                noNetworkRetryView.setOnClickListener(onRetryClickListener);
+            }
+            addView(noNetworkView,0,layoutParams);
+        }
+        showViewByStatus(viewStatus);
     }
 
-    private final View showViewById(int viewId) {
-        View view = null;
-        for (int i = 0; i < this.getChildCount(); i++) {
-            final View child = this.getChildAt(i);
-            child.setVisibility(child.getId() == viewId ? View.VISIBLE : View.GONE);
-            if(child.getId() == viewId){
-                view = child;
+    /** 显示内容视图 */
+    public final void showContent() {
+        viewStatus = STATUS_CONTENT;
+        if(null == contentView){
+            if(contentViewResId != NULL_RESOURCE_ID){
+                contentView = inflater.inflate(contentViewResId, null);
+                addView(contentView,0,layoutParams);
+            }else{
+                contentView = findViewById(R.id.content_view);
             }
         }
-        return view;
+        showViewByStatus(viewStatus);
+    }
+
+    private void showViewByStatus(int viewStatus) {
+        if(null != loadingView){
+            loadingView.setVisibility(viewStatus==STATUS_LOADING ? View.VISIBLE : View.GONE);
+        }
+        if(null != emptyView){
+            emptyView.setVisibility(viewStatus==STATUS_EMPTY ? View.VISIBLE : View.GONE);
+        }
+        if(null != errorView){
+            errorView.setVisibility(viewStatus==STATUS_ERROR ? View.VISIBLE : View.GONE);
+        }
+        if(null != noNetworkView){
+            noNetworkView.setVisibility(viewStatus==STATUS_NO_NETWORK ? View.VISIBLE : View.GONE);
+        }
+        if(null != contentView){
+            contentView.setVisibility(viewStatus==STATUS_CONTENT ? View.VISIBLE : View.GONE);
+        }
     }
 
 }

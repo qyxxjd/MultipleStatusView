@@ -7,7 +7,7 @@
 ##使用
 ```gradle
 dependencies {
-    compile 'com.classic.common:multiple-status-view:1.0'
+    compile 'com.classic.common:multiple-status-view:1.1'
 }
 ```
 
@@ -69,9 +69,9 @@ MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写
     <TextView
         android:id="@+id/content_view"
         android:text="内容视图"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:textSize="20sp"
         />
 

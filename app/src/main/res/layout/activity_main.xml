@@ -22,12 +22,13 @@
 
         第二种用法：
         直接写在MultipleStatusView节点内，如下。
+
         <TextView
             android:id="@+id/content_view"
             android:text="内容视图"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:textSize="20sp"
             />
         -->
