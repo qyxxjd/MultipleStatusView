@@ -7,7 +7,7 @@
 ##使用
 ```gradle
 dependencies {
-    compile 'com.classic.common:multiple-status-view:1.1'
+    compile 'com.classic.common:multiple-status-view:1.2'
 }
 ```
 
