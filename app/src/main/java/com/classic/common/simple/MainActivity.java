@@ -10,60 +10,60 @@ import com.github.clans.fab.FloatingActionMenu;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private MultipleStatusView multipleStatusView;
-    private FloatingActionMenu floatingActionMenu;
-    private FloatingActionButton loadingFab;
-    private FloatingActionButton emptyFab;
-    private FloatingActionButton errorFab;
-    private FloatingActionButton noNetworkFab;
-    private FloatingActionButton contentFab;
+    private MultipleStatusView mMultipleStatusView;
+    private FloatingActionMenu mFloatingActionMenu;
+    private FloatingActionButton mLoadingFab;
+    private FloatingActionButton mEmptyFab;
+    private FloatingActionButton mErrorFab;
+    private FloatingActionButton mNoNetworkFab;
+    private FloatingActionButton mContentFab;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        multipleStatusView = (MultipleStatusView) findViewById(R.id.main_multiplestatusview);
-        floatingActionMenu = (FloatingActionMenu) findViewById(R.id.main_fab_menu);
-        loadingFab = (FloatingActionButton) findViewById(R.id.main_fab_loading);
-        emptyFab = (FloatingActionButton) findViewById(R.id.main_fab_empty);
-        errorFab = (FloatingActionButton) findViewById(R.id.main_fab_error);
-        noNetworkFab = (FloatingActionButton) findViewById(R.id.main_fab_no_network);
-        contentFab = (FloatingActionButton) findViewById(R.id.main_fab_content);
-        loadingFab.setOnClickListener(this);
-        emptyFab.setOnClickListener(this);
-        errorFab.setOnClickListener(this);
-        noNetworkFab.setOnClickListener(this);
-        contentFab.setOnClickListener(this);
+        mMultipleStatusView = (MultipleStatusView) findViewById(R.id.main_multiplestatusview);
+        mFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.main_fab_menu);
+        mLoadingFab = (FloatingActionButton) findViewById(R.id.main_fab_loading);
+        mEmptyFab = (FloatingActionButton) findViewById(R.id.main_fab_empty);
+        mErrorFab = (FloatingActionButton) findViewById(R.id.main_fab_error);
+        mNoNetworkFab = (FloatingActionButton) findViewById(R.id.main_fab_no_network);
+        mContentFab = (FloatingActionButton) findViewById(R.id.main_fab_content);
+        mLoadingFab.setOnClickListener(this);
+        mEmptyFab.setOnClickListener(this);
+        mErrorFab.setOnClickListener(this);
+        mNoNetworkFab.setOnClickListener(this);
+        mContentFab.setOnClickListener(this);
 
-        multipleStatusView.setOnRetryClickListener(onRetryClickListener);
-        multipleStatusView.showLoading();
+        mMultipleStatusView.setOnRetryClickListener(onRetryClickListener);
+        mMultipleStatusView.showLoading();
     }
 
     private final View.OnClickListener onRetryClickListener = new View.OnClickListener() {
         @Override public void onClick(View v) {
             Toast.makeText(getApplicationContext(),"您点击了重试视图",Toast.LENGTH_SHORT).show();
-            multipleStatusView.showLoading();
+            mMultipleStatusView.showLoading();
         }
     };
 
     @Override public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_fab_loading:
-                multipleStatusView.showLoading();
+                mMultipleStatusView.showLoading();
                 break;
             case R.id.main_fab_empty:
-                multipleStatusView.showEmpty();
+                mMultipleStatusView.showEmpty();
                 break;
             case R.id.main_fab_error:
-                multipleStatusView.showError();
+                mMultipleStatusView.showError();
                 break;
             case R.id.main_fab_no_network:
-                multipleStatusView.showNoNetwork();
+                mMultipleStatusView.showNoNetwork();
                 break;
             case R.id.main_fab_content:
-                multipleStatusView.showContent();
+                mMultipleStatusView.showContent();
                 break;
         }
-        floatingActionMenu.toggle(false);
+        mFloatingActionMenu.toggle(false);
     }
 }
