@@ -10,7 +10,7 @@
         android:layout_height="@dimen/custom_avloading_height"
         android:layout_centerInParent="true"
         android:visibility="visible"
-        app:indicator="BallClipRotateMultiple"
-        app:indicator_color="@color/colorAccent"
+        app:indicatorName="BallClipRotateMultipleIndicator"
+        app:indicatorColor="@color/colorAccent"
         />
 </RelativeLayout>
