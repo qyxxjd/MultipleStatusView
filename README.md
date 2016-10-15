@@ -1,4 +1,15 @@
-一个支持多种状态的自定义View,可以方便的切换到：加载中视图、错误视图、空数据视图、网络异常视图、内容视图。
+<p>
+  <a href="https://developer.android.com/reference/android/os/Build.VERSION_CODES.html#ICE_CREAM_SANDWICH"><img src="https://img.shields.io/badge/API-14%2B-blue.svg?style=flat" alt="API" /></a>
+  <a href="javascript:void(0);"><img src="https://img.shields.io/badge/Version-v1.2-brightgreen.svg" alt="Library version" /></a>
+  <a href="LICENSE.txt"><img src="https://img.shields.io/npm/l/express.svg?maxAge=2592000" alt="License" /></a>
+</p>
+
+一个支持多种状态的自定义View,可以方便的切换到：
+- 加载中视图
+- 错误视图
+- 空数据视图
+- 网络异常视图
+- 内容视图
 
 [apk下载](https://github.com/qyxxjd/MultipleStatusView/blob/master/apk/MultipleStatusView.apk?raw=true)
 
