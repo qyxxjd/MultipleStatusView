@@ -1,6 +1,8 @@
 <p>
   <a href="https://developer.android.com/reference/android/os/Build.VERSION_CODES.html#ICE_CREAM_SANDWICH"><img src="https://img.shields.io/badge/API-14%2B-blue.svg?style=flat" alt="API" /></a>
   <a href="javascript:void(0);"><img src="https://img.shields.io/badge/Version-v1.2-brightgreen.svg" alt="Library version" /></a>
+  <a href="http://www.methodscount.com/?lib=com.classic.common%3Amultiple-status-view%3A1.2"><img src="https://img.shields.io/badge/Methods count-28-e91e63.svg"/></a>
+  <a href="http://www.methodscount.com/?lib=com.classic.common%3Amultiple-status-view%3A1.2"><img src="https://img.shields.io/badge/Size-7 KB-e91e63.svg"/></a>
   <a href="LICENSE.txt"><img src="https://img.shields.io/npm/l/express.svg?maxAge=2592000" alt="License" /></a>
 </p>
 
