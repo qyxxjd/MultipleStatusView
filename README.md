@@ -17,17 +17,20 @@
 
 ![](https://github.com/qyxxjd/MultipleStatusView/blob/master/screenshots/demo.gif)
 
-##使用
+## 使用
+
 ```gradle
 dependencies {
     compile 'com.classic.common:multiple-status-view:1.2'
 }
 ```
 
-##感谢
+## 感谢
+
 [LoadingLayout @大头鬼](https://github.com/lzyzsd/LoadingLayout)
 
-##示例
+## 示例
+
 ```xml
 <com.classic.common.MultipleStatusView
     android:id="@+id/main_multiplestatusview"
@@ -91,7 +94,8 @@ MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写
 </com.classic.common.MultipleStatusView>
 ```
 
-##注意事项
+## 注意事项
+
 - 加载中视图的id必须为：loading_view
 - 空视图的id必须为：empty_view
 - 错误视图的id必须为：error_view
@@ -137,11 +141,13 @@ MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写
 
 详细使用见demo示例。
 
-##关于
+## 关于
+
 * Blog: [http://blog.csdn.net/qy1387](http://blog.csdn.net/qy1387)
 * Email: [pgliubin@gmail.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=pgliubin@gmail.com)
 
-##License
+## License
+
 ```
 Copyright 2015 classic
 
