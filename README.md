@@ -1,8 +1,8 @@
 <p>
   <a href="https://developer.android.com/reference/android/os/Build.VERSION_CODES.html#ICE_CREAM_SANDWICH"><img src="https://img.shields.io/badge/API-14%2B-blue.svg?style=flat" alt="API" /></a>
-  <a href="javascript:void(0);"><img src="https://img.shields.io/badge/Version-v1.2-brightgreen.svg" alt="Library version" /></a>
-  <a href="http://www.methodscount.com/?lib=com.classic.common%3Amultiple-status-view%3A1.2"><img src="https://img.shields.io/badge/Methods count-28-e91e63.svg"/></a>
-  <a href="http://www.methodscount.com/?lib=com.classic.common%3Amultiple-status-view%3A1.2"><img src="https://img.shields.io/badge/Size-7 KB-e91e63.svg"/></a>
+  <a href="javascript:void(0);"><img src="https://img.shields.io/badge/Version-v1.3-brightgreen.svg" alt="Library version" /></a>
+  <a href="http://www.methodscount.com/?lib=com.classic.common%3Amultiple-status-view%3A1.3"><img src="https://img.shields.io/badge/Methods count-52-e91e63.svg"/></a>
+  <a href="http://www.methodscount.com/?lib=com.classic.common%3Amultiple-status-view%3A1.3"><img src="https://img.shields.io/badge/Size-7 KB-e91e63.svg"/></a>
   <a href="LICENSE.txt"><img src="https://img.shields.io/npm/l/express.svg?maxAge=2592000" alt="License" /></a>
 </p>
 
@@ -21,39 +21,42 @@
 
 ```gradle
 dependencies {
-    compile 'com.classic.common:multiple-status-view:1.2'
+    compile 'com.classic.common:multiple-status-view:1.3'
 }
 ```
-
-## 感谢
-
-[LoadingLayout @大头鬼](https://github.com/lzyzsd/LoadingLayout)
 
 ## 示例
 
 ```xml
 <com.classic.common.MultipleStatusView
-    android:id="@+id/main_multiplestatusview"
+    android:id="@+id/multiple_status_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:loadingView="@layout/custom_loading_view"
     app:emptyView="@layout/custom_empty_view"
     app:errorView="@layout/custom_error_view"
     app:noNetworkView="@layout/custom_no_network_view"
-    app:contentView="@layout/main_content"
-    />
+    app:contentView="@layout/main_content"/>
 ```
 
 ```java
-MultipleStatusView multipleStatusView = (MultipleStatusView) findViewById(R.id.main_multiplestatusview);
+MultipleStatusView multipleStatusView = (MultipleStatusView) findViewById(R.id.multiple_status_view);
 //显示加载中视图
 multipleStatusView.showLoading();
+// multipleStatusView.showLoading(R.layout.xxx, layoutParams);
+// multipleStatusView.showLoading(customView, layoutParams);
 //显示空视图
 multipleStatusView.showEmpty();
+// multipleStatusView.showEmpty(R.layout.xxx, layoutParams);
+// multipleStatusView.showEmpty(customView, layoutParams);
 //显示错误视图
 multipleStatusView.showError();
+// multipleStatusView.showError(R.layout.xxx, layoutParams);
+// multipleStatusView.showError(customView, layoutParams);
 //显示无网络视图
 multipleStatusView.showNoNetwork();
+// multipleStatusView.showNoNetwork(R.layout.xxx, layoutParams);
+// multipleStatusView.showNoNetwork(customView, layoutParams);
 //显示内容视图
 multipleStatusView.showContent();
 //设置重试视图点击事件
@@ -73,73 +76,81 @@ int viewStatus = multipleStatusView.getViewStatus();
 MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写在MultipleStatusView内部
 ```xml
 <com.classic.common.MultipleStatusView
-    android:id="@+id/main_multiplestatusview"
+    android:id="@+id/multiple_status_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:loadingView="@layout/custom_loading_view"
     app:emptyView="@layout/custom_empty_view"
     app:errorView="@layout/custom_error_view"
-    app:noNetworkView="@layout/custom_no_network_view"
-    >
+    app:loadingView="@layout/custom_loading_view"
+    app:noNetworkView="@layout/custom_no_network_view">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/test"/>
 
     <TextView
-        android:id="@+id/content_view"
-        android:text="内容视图"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="20sp"
-        />
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/image"
+        android:layout_toRightOf="@id/image"
+        android:text="内容视图111111"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/image"
+        android:layout_toRightOf="@id/image"
+        android:text="内容视图222222"/>
 
 </com.classic.common.MultipleStatusView>
 ```
 
 ## 注意事项
 
-- 加载中视图的id必须为：loading_view
-- 空视图的id必须为：empty_view
-- 错误视图的id必须为：error_view
-- 无网络视图的id必须为：no_network_view
-- 内容视图的id必须为：content_view
+1. 如果使用自定义属性
+```
+app:emptyView="@layout/..."
+app:errorView="@layout/..."
+app:loadingView="@layout/..."
+app:noNetworkView="@layout/..."
+```
+需要设置：
+
+- 加载中视图的id必须为：`loading_view`
+- 空视图的id必须为：`empty_view`
+- 错误视图的id必须为：`error_view`
+- 无网络视图的id必须为：`no_network_view`
+
+
+2. 如果需要点击某个 `view` 进行重试, 需要设置:
+
+- 空视图内对应的view id：`empty_retry_view`
+- 错误视图内对应的view id：`error_retry_view`
+- 无网络视图内对应的view id：`no_network_retry_view`
+
+
+3. 使用 `new` 关键字创建自定义视图时，请设置 `id`
 
 ```xml
-<RelativeLayout
-    android:id="@+id/loading_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    ...
-
-</RelativeLayout>
+TextView tv = new TextView(getApplicationContext());
+tv.setId(Utils.generateViewId());
+tv.setText(text);
 ```
 
-如果需要点击某个view进行重试,可以设置如下id:
-- 空视图内对应的view id：empty_retry_view
-- 错误视图内对应的view id：error_retry_view
-- 无网络视图内对应的view id：no_network_retry_view
+更多使用方法详见 `demo` 示例:
 
-```xml
-<RelativeLayout
-    android:id="@+id/error_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+- [简单布局](https://github.com/qyxxjd/MultipleStatusView/blob/master/app/src/main/res/layout/activity_simple.xml)
+- [简单布局2](https://github.com/qyxxjd/MultipleStatusView/blob/master/app/src/main/res/layout/activity_simple2.xml)
+- [设置自定义视图](https://github.com/qyxxjd/MultipleStatusView/blob/master/app/src/main/java/com/classic/common/simple/CustomActivity.java)
+- [列表页面](https://github.com/qyxxjd/MultipleStatusView/blob/master/app/src/main/res/layout/activity_list.xml)
+- [列表 + 下拉刷新](https://github.com/qyxxjd/MultipleStatusView/blob/master/app/src/main/res/layout/activity_refresh.xml)
 
-    <ImageView
-        android:id="@+id/error_retry_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@mipmap/ic_error"
-        />
-
-    <TextView
-        style="@style/MultipleStatusView.Content"
-        android:layout_below="@id/error_retry_view"
-        android:text="@string/error_view_hint"/>
-</RelativeLayout>
-```
-
-详细使用见demo示例。
 
 ## 关于
 
