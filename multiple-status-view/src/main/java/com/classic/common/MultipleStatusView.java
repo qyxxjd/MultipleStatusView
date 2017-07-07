@@ -8,13 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+
 /**
  * 类描述：  一个方便在多种状态切换的view
  *
  * 创建人:   续写经典
  * 创建时间: 2016/1/15 10:20.
  */
-public class MultipleStatusView extends RelativeLayout {
+@SuppressWarnings("unused") public class MultipleStatusView extends RelativeLayout {
+    private static final String TAG = "MultipleStatusView";
+
+    private static final RelativeLayout.LayoutParams DEFAULT_LAYOUT_PARAMS =
+            new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                                            RelativeLayout.LayoutParams.MATCH_PARENT);
+
     public static final int STATUS_CONTENT    = 0x00;
     public static final int STATUS_LOADING    = 0x01;
     public static final int STATUS_EMPTY      = 0x02;
@@ -28,20 +36,16 @@ public class MultipleStatusView extends RelativeLayout {
     private View mLoadingView;
     private View mNoNetworkView;
     private View mContentView;
-    private View mEmptyRetryView;
-    private View mErrorRetryView;
-    private View mNoNetworkRetryView;
     private int  mEmptyViewResId;
     private int  mErrorViewResId;
     private int  mLoadingViewResId;
     private int  mNoNetworkViewResId;
     private int  mContentViewResId;
-    private int  mViewStatus;
 
-    private LayoutInflater  mInflater;
-    private OnClickListener mOnRetryClickListener;
-    private final ViewGroup.LayoutParams mLayoutParams =
-            new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    private int                mViewStatus;
+    private LayoutInflater     mInflater;
+    private OnClickListener    mOnRetryClickListener;
+    private ArrayList<Integer> mOtherIds;
 
     public MultipleStatusView(Context context) {
         this(context, null);
@@ -53,9 +57,7 @@ public class MultipleStatusView extends RelativeLayout {
 
     public MultipleStatusView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultipleStatusView, defStyleAttr, 0);
-
         mEmptyViewResId = a.getResourceId(R.styleable.MultipleStatusView_emptyView, R.layout.empty_view);
         mErrorViewResId = a.getResourceId(R.styleable.MultipleStatusView_errorView, R.layout.error_view);
         mLoadingViewResId = a.getResourceId(R.styleable.MultipleStatusView_loadingView, R.layout.loading_view);
@@ -67,13 +69,26 @@ public class MultipleStatusView extends RelativeLayout {
     @Override protected void onFinishInflate() {
         super.onFinishInflate();
         mInflater = LayoutInflater.from(getContext());
+        mOtherIds = new ArrayList<>();
         showContent();
+    }
+
+    @Override protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        clear(mEmptyView, mLoadingView, mErrorView, mNoNetworkView);
+        if (null != mOtherIds) {
+            mOtherIds.clear();
+        }
+        if (null != mOnRetryClickListener) {
+            mOnRetryClickListener = null;
+        }
+        mInflater = null;
     }
 
     /**
      * 获取当前状态
      */
-    @SuppressWarnings("unused") public int getViewStatus() {
+    public int getViewStatus() {
         return mViewStatus;
     }
 
@@ -90,60 +105,140 @@ public class MultipleStatusView extends RelativeLayout {
      * 显示空视图
      */
     public final void showEmpty() {
+        showEmpty(mEmptyViewResId, DEFAULT_LAYOUT_PARAMS);
+    }
+
+    /**
+     * 显示空视图
+     * @param layoutId 自定义布局文件
+     * @param layoutParams 布局参数
+     */
+    public final void showEmpty(int layoutId, ViewGroup.LayoutParams layoutParams) {
+        showEmpty(inflateView(layoutId), layoutParams);
+    }
+
+    /**
+     * 显示空视图
+     * @param view 自定义视图
+     * @param layoutParams 布局参数
+     */
+    public final void showEmpty(View view, ViewGroup.LayoutParams layoutParams) {
+        checkNull(view, "Empty view is null!");
         mViewStatus = STATUS_EMPTY;
         if (null == mEmptyView) {
-            mEmptyView = mInflater.inflate(mEmptyViewResId, null);
-            mEmptyRetryView = mEmptyView.findViewById(R.id.empty_retry_view);
-            if (null != mOnRetryClickListener && null != mEmptyRetryView) {
-                mEmptyRetryView.setOnClickListener(mOnRetryClickListener);
+            mEmptyView = view;
+            View emptyRetryView = mEmptyView.findViewById(R.id.empty_retry_view);
+            if (null != mOnRetryClickListener && null != emptyRetryView) {
+                emptyRetryView.setOnClickListener(mOnRetryClickListener);
             }
-            addView(mEmptyView, 0, mLayoutParams);
+            mOtherIds.add(mEmptyView.getId());
+            addView(mEmptyView, 0, layoutParams);
         }
-        showViewByStatus(mViewStatus);
+        showViewById(mEmptyView.getId());
     }
 
     /**
      * 显示错误视图
      */
     public final void showError() {
+        showError(mErrorViewResId, DEFAULT_LAYOUT_PARAMS);
+    }
+
+    /**
+     * 显示错误视图
+     * @param layoutId 自定义布局文件
+     * @param layoutParams 布局参数
+     */
+    public final void showError(int layoutId, ViewGroup.LayoutParams layoutParams) {
+        showError(inflateView(layoutId), layoutParams);
+    }
+
+    /**
+     * 显示错误视图
+     * @param view 自定义视图
+     * @param layoutParams 布局参数
+     */
+    public final void showError(View view, ViewGroup.LayoutParams layoutParams) {
+        checkNull(view, "Error view is null!");
         mViewStatus = STATUS_ERROR;
         if (null == mErrorView) {
-            mErrorView = mInflater.inflate(mErrorViewResId, null);
-            mErrorRetryView = mErrorView.findViewById(R.id.error_retry_view);
-            if (null != mOnRetryClickListener && null != mErrorRetryView) {
-                mErrorRetryView.setOnClickListener(mOnRetryClickListener);
+            mErrorView = view;
+            View errorRetryView = mErrorView.findViewById(R.id.error_retry_view);
+            if (null != mOnRetryClickListener && null != errorRetryView) {
+                errorRetryView.setOnClickListener(mOnRetryClickListener);
             }
-            addView(mErrorView, 0, mLayoutParams);
+            mOtherIds.add(mErrorView.getId());
+            addView(mErrorView, 0, layoutParams);
         }
-        showViewByStatus(mViewStatus);
+        showViewById(mErrorView.getId());
     }
 
     /**
      * 显示加载中视图
      */
     public final void showLoading() {
+        showLoading(mLoadingViewResId, DEFAULT_LAYOUT_PARAMS);
+    }
+
+    /**
+     * 显示加载中视图
+     * @param layoutId 自定义布局文件
+     * @param layoutParams 布局参数
+     */
+    public final void showLoading(int layoutId, ViewGroup.LayoutParams layoutParams) {
+        showLoading(inflateView(layoutId), layoutParams);
+    }
+
+    /**
+     * 显示加载中视图
+     * @param view 自定义视图
+     * @param layoutParams 布局参数
+     */
+    public final void showLoading(View view, ViewGroup.LayoutParams layoutParams) {
+        checkNull(view, "Loading view is null!");
         mViewStatus = STATUS_LOADING;
         if (null == mLoadingView) {
-            mLoadingView = mInflater.inflate(mLoadingViewResId, null);
-            addView(mLoadingView, 0, mLayoutParams);
+            mLoadingView = view;
+            mOtherIds.add(mLoadingView.getId());
+            addView(mLoadingView, 0, layoutParams);
         }
-        showViewByStatus(mViewStatus);
+        showViewById(mLoadingView.getId());
     }
 
     /**
      * 显示无网络视图
      */
     public final void showNoNetwork() {
+        showNoNetwork(mNoNetworkViewResId, DEFAULT_LAYOUT_PARAMS);
+    }
+
+    /**
+     * 显示无网络视图
+     * @param layoutId 自定义布局文件
+     * @param layoutParams 布局参数
+     */
+    public final void showNoNetwork(int layoutId, ViewGroup.LayoutParams layoutParams) {
+        showNoNetwork(inflateView(layoutId), layoutParams);
+    }
+
+    /**
+     * 显示无网络视图
+     * @param view 自定义视图
+     * @param layoutParams 布局参数
+     */
+    public final void showNoNetwork(View view, ViewGroup.LayoutParams layoutParams) {
+        checkNull(view, "No network view is null!");
         mViewStatus = STATUS_NO_NETWORK;
         if (null == mNoNetworkView) {
-            mNoNetworkView = mInflater.inflate(mNoNetworkViewResId, null);
-            mNoNetworkRetryView = mNoNetworkView.findViewById(R.id.no_network_retry_view);
-            if (null != mOnRetryClickListener && null != mNoNetworkRetryView) {
-                mNoNetworkRetryView.setOnClickListener(mOnRetryClickListener);
+            mNoNetworkView = view;
+            View noNetworkRetryView = mNoNetworkView.findViewById(R.id.no_network_retry_view);
+            if (null != mOnRetryClickListener && null != noNetworkRetryView) {
+                noNetworkRetryView.setOnClickListener(mOnRetryClickListener);
             }
-            addView(mNoNetworkView, 0, mLayoutParams);
+            mOtherIds.add(mNoNetworkView.getId());
+            addView(mNoNetworkView, 0, layoutParams);
         }
-        showViewByStatus(mViewStatus);
+        showViewById(mNoNetworkView.getId());
     }
 
     /**
@@ -151,33 +246,50 @@ public class MultipleStatusView extends RelativeLayout {
      */
     public final void showContent() {
         mViewStatus = STATUS_CONTENT;
-        if (null == mContentView) {
-            if (mContentViewResId != NULL_RESOURCE_ID) {
-                mContentView = mInflater.inflate(mContentViewResId, null);
-                addView(mContentView, 0, mLayoutParams);
-            } else {
-                mContentView = findViewById(R.id.content_view);
+        if (null == mContentView && mContentViewResId != NULL_RESOURCE_ID) {
+            mContentView = mInflater.inflate(mContentViewResId, null);
+            addView(mContentView, 0, DEFAULT_LAYOUT_PARAMS);
+        }
+        showContentView();
+    }
+
+    private void showContentView() {
+        final int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View view = getChildAt(i);
+            view.setVisibility(mOtherIds.contains(view.getId()) ? View.GONE : View.VISIBLE);
+        }
+    }
+
+    private View inflateView(int layoutId) {
+        return mInflater.inflate(layoutId, null);
+    }
+
+    private void showViewById(int viewId) {
+        final int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View view = getChildAt(i);
+            view.setVisibility(view.getId() == viewId ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    private void checkNull(Object object, String hint) {
+        if (null == object) {
+            throw new NullPointerException(hint);
+        }
+    }
+
+    private void clear(View... views) {
+        if (null == views) {
+            return;
+        }
+        //noinspection EmptyCatchBlock
+        try {
+            for (View view : views) {
+                if (null != view) {
+                    removeView(view);
+                }
             }
-        }
-        showViewByStatus(mViewStatus);
+        } catch (Exception e) { }
     }
-
-    private void showViewByStatus(int viewStatus) {
-        if (null != mLoadingView) {
-            mLoadingView.setVisibility(viewStatus == STATUS_LOADING ? View.VISIBLE : View.GONE);
-        }
-        if (null != mEmptyView) {
-            mEmptyView.setVisibility(viewStatus == STATUS_EMPTY ? View.VISIBLE : View.GONE);
-        }
-        if (null != mErrorView) {
-            mErrorView.setVisibility(viewStatus == STATUS_ERROR ? View.VISIBLE : View.GONE);
-        }
-        if (null != mNoNetworkView) {
-            mNoNetworkView.setVisibility(viewStatus == STATUS_NO_NETWORK ? View.VISIBLE : View.GONE);
-        }
-        if (null != mContentView) {
-            mContentView.setVisibility(viewStatus == STATUS_CONTENT ? View.VISIBLE : View.GONE);
-        }
-    }
-
 }
