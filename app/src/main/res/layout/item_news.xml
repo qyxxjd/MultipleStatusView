@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/layout_margin"
+    android:padding="@dimen/layout_margin" >
+
+    <TextView
+        style="@style/Item.Title"
+        android:id="@+id/item_single_picture_title"
+        tools:text="我国手机用户数冲破13亿" />
+    <TextView
+        style="@style/Item.Title.Subtitle"
+        android:id="@+id/item_single_picture_author"
+        android:layout_below="@id/item_single_picture_title"
+        tools:text="报道人：续写经典" />
+    <TextView
+        style="@style/Item.Title.Subtitle"
+        android:id="@+id/item_single_picture_date"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/item_single_picture_author"
+        tools:text="2016-01-26 10:23" />
+    <ImageView
+        android:id="@+id/item_single_picture_cover"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_item_cover_height"
+        android:layout_marginTop="@dimen/text_margin"
+        android:layout_below="@id/item_single_picture_author"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/phone"/>
+
+</RelativeLayout>

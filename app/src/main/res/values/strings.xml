@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MultipleStatusView</string>
+    <string name="title_activity_list">ListActivity</string>
 </resources>

@@ -4,5 +4,17 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="custom_avloading_height">64dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="layout_margin">8dp</dimen>
+    <dimen name="layout_height">80dp</dimen>
+    <dimen name="text_size_24">24sp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
+    <dimen name="text_margin">4dp</dimen>
+
+    <dimen name="size_main_content">24sp</dimen>
+    <dimen name="size_item_title">18sp</dimen>
+    <dimen name="size_item_subtitle">12sp</dimen>
+    <dimen name="size_item_intro">14sp</dimen>
+    <dimen name="size_item_cover_height">160dp</dimen>
 </resources>
