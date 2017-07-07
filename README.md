@@ -41,24 +41,30 @@ dependencies {
 
 ```java
 MultipleStatusView multipleStatusView = (MultipleStatusView) findViewById(R.id.multiple_status_view);
+
 //显示加载中视图
 multipleStatusView.showLoading();
 // multipleStatusView.showLoading(R.layout.xxx, layoutParams);
 // multipleStatusView.showLoading(customView, layoutParams);
+
 //显示空视图
 multipleStatusView.showEmpty();
 // multipleStatusView.showEmpty(R.layout.xxx, layoutParams);
 // multipleStatusView.showEmpty(customView, layoutParams);
+
 //显示错误视图
 multipleStatusView.showError();
 // multipleStatusView.showError(R.layout.xxx, layoutParams);
 // multipleStatusView.showError(customView, layoutParams);
+
 //显示无网络视图
 multipleStatusView.showNoNetwork();
 // multipleStatusView.showNoNetwork(R.layout.xxx, layoutParams);
 // multipleStatusView.showNoNetwork(customView, layoutParams);
+
 //显示内容视图
 multipleStatusView.showContent();
+
 //设置重试视图点击事件
 multipleStatusView.setOnRetryClickListener(onRetryClickListener);
 
@@ -73,7 +79,8 @@ multipleStatusView.setOnRetryClickListener(onRetryClickListener);
 int viewStatus = multipleStatusView.getViewStatus();
 
 ```
-MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写在MultipleStatusView内部
+
+`MultipleStatusView` 继承自 `RelativeLayout`，所以内容视图也可以直接写在 `MultipleStatusView` 内部
 ```xml
 <com.classic.common.MultipleStatusView
     android:id="@+id/multiple_status_view"
@@ -113,7 +120,7 @@ MultipleStatusView继承自RelativeLayout，所以内容视图也可以直接写
 
 ## 注意事项
 
-1. 如果使用自定义属性
+#### 1. 如果使用自定义属性
 ```
 app:emptyView="@layout/..."
 app:errorView="@layout/..."
@@ -128,14 +135,14 @@ app:noNetworkView="@layout/..."
 - 无网络视图的id必须为：`no_network_view`
 
 
-2. 如果需要点击某个 `view` 进行重试, 需要设置:
+#### 2. 如果需要点击某个 `view` 进行重试, 需要设置:
 
 - 空视图内对应的view id：`empty_retry_view`
 - 错误视图内对应的view id：`error_retry_view`
 - 无网络视图内对应的view id：`no_network_retry_view`
 
 
-3. 使用 `new` 关键字创建自定义视图时，请设置 `id`
+#### 3. 使用 `new` 关键字创建自定义视图时，请设置 `id`
 
 ```xml
 TextView tv = new TextView(getApplicationContext());
