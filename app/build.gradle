@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.classic.common.simple"
-        minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        applicationId rootProject.ext.android.applicationId
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
     }
     buildTypes {
         release {
@@ -20,19 +20,15 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile project(':multiple-status-view')
-    compile 'com.classic.common:multiple-status-view:1.3'
+//    implementation project(':multiple-status-view')
+    compile rootProject.ext.multipleStatusView
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    //https://github.com/81813780/AVLoadingIndicatorView
-    compile 'com.wang.avi:library:2.1.3'
-    compile 'com.nineoldandroids:library:2.4.0'
-    //https://github.com/Clans/FloatingActionButton
-    compile 'com.github.clans:fab:1.6.4'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.classic.adapter:commonadapter:1.8.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
+    implementation rootProject.ext.supportAppcompatV7
+    implementation rootProject.ext.supportRecyclerView
+    implementation rootProject.ext.supportDesign
+    implementation rootProject.ext.loadingView
+    implementation rootProject.ext.nineoldandroids
+    implementation rootProject.ext.fab
+    implementation rootProject.ext.adapter
+    testImplementation rootProject.ext.junit
 }

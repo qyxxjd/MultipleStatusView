@@ -42,10 +42,11 @@ import java.util.ArrayList;
     private int  mNoNetworkViewResId;
     private int  mContentViewResId;
 
-    private int                mViewStatus;
-    private LayoutInflater     mInflater;
-    private OnClickListener    mOnRetryClickListener;
-    private ArrayList<Integer> mOtherIds;
+    private int             mViewStatus;
+    private LayoutInflater  mInflater;
+    private OnClickListener mOnRetryClickListener;
+
+    private final ArrayList<Integer> mOtherIds = new ArrayList<>();
 
     public MultipleStatusView(Context context) {
         this(context, null);
@@ -64,12 +65,11 @@ import java.util.ArrayList;
         mNoNetworkViewResId = a.getResourceId(R.styleable.MultipleStatusView_noNetworkView, R.layout.no_network_view);
         mContentViewResId = a.getResourceId(R.styleable.MultipleStatusView_contentView, NULL_RESOURCE_ID);
         a.recycle();
+        mInflater = LayoutInflater.from(getContext());
     }
 
     @Override protected void onFinishInflate() {
         super.onFinishInflate();
-        mInflater = LayoutInflater.from(getContext());
-        mOtherIds = new ArrayList<>();
         showContent();
     }
 
@@ -283,13 +283,14 @@ import java.util.ArrayList;
         if (null == views) {
             return;
         }
-        //noinspection EmptyCatchBlock
         try {
             for (View view : views) {
                 if (null != view) {
                     removeView(view);
                 }
             }
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

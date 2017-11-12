@@ -1,0 +1,31 @@
+def supportVersion = "27.0.0"
+
+ext {
+
+    android = [
+            compileSdkVersion   : 27,
+            buildToolsVersion   : "27.0.1",
+            applicationId       : "com.classic.common.simple",
+            minSdkVersion       : 14,
+            targetSdkVersion    : 25,
+            versionCode         : 5,
+            versionName         : "1.4"
+    ]
+
+    resourcePrefix = "MultipleStatusView"
+
+    //官方库
+    supportV4 = "com.android.support:support-v4:${supportVersion}"
+    supportAppcompatV7 = "com.android.support:appcompat-v7:${supportVersion}"
+    supportDesign = "com.android.support:design:${supportVersion}"
+    supportCardView = "com.android.support:cardview-v7:${supportVersion}"
+    supportRecyclerView = "com.android.support:recyclerview-v7:${supportVersion}"
+
+    junit = "junit:junit:4.12"
+
+    multipleStatusView = "com.classic.common:multiple-status-view:1.4"
+    loadingView = "com.wang.avi:library:2.1.3" // https://github.com/81813780/AVLoadingIndicatorView
+    fab = "com.github.clans:fab:1.6.4" // https://github.com/Clans/FloatingActionButton
+    adapter = "com.classic.adapter:commonadapter:1.9"
+    nineoldandroids = "com.nineoldandroids:library:2.4.0"
+}
