@@ -21,7 +21,7 @@
 
 ```gradle
 dependencies {
-    compile 'com.classic.common:multiple-status-view:1.4'
+    implementation 'com.classic.common:multiple-status-view:1.4'
 }
 ```
 

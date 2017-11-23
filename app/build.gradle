@@ -21,7 +21,7 @@ android {
 
 dependencies {
 //    implementation project(':multiple-status-view')
-    compile rootProject.ext.multipleStatusView
+    implementation rootProject.ext.multipleStatusView
 
     implementation rootProject.ext.supportAppcompatV7
     implementation rootProject.ext.supportRecyclerView
