@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
-import com.classic.common.MultipleStatusView;
 
 public class RefreshActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -20,13 +19,13 @@ public class RefreshActivity extends AbsActivity implements SwipeRefreshLayout.O
     @Override void initView() {
         setContentView(R.layout.activity_refresh);
         setTitle("RefreshActivity");
-        mMultipleStatusView = (MultipleStatusView)findViewById(R.id.refresh_multiple_status_view);
-        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout);
+        mMultipleStatusView = findViewById(R.id.refresh_multiple_status_view);
+        mSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setBackgroundResource(android.R.color.white);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
                                                     android.R.color.holo_orange_light, android.R.color.holo_red_light);
-        mRecyclerView = (RecyclerView)mMultipleStatusView.findViewById(R.id.recycler_view);
+        mRecyclerView = mMultipleStatusView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mNewsAdapter = new NewsAdapter(this);

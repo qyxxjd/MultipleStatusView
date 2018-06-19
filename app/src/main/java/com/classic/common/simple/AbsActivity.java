@@ -29,17 +29,17 @@ public abstract class AbsActivity extends AppCompatActivity implements View.OnCl
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) { actionBar.setDisplayHomeAsUpEnabled(true); }
 
-        mFloatingActionMenu = (FloatingActionMenu)findViewById(R.id.menu);
-        mLoadingFab = (FloatingActionButton)findViewById(R.id.fab_loading);
-        mEmptyFab = (FloatingActionButton)findViewById(R.id.fab_empty);
-        mErrorFab = (FloatingActionButton)findViewById(R.id.fab_error);
-        mNoNetworkFab = (FloatingActionButton)findViewById(R.id.fab_no_network);
-        mContentFab = (FloatingActionButton)findViewById(R.id.fab_content);
+        mFloatingActionMenu = findViewById(R.id.menu);
+        mLoadingFab = findViewById(R.id.fab_loading);
+        mEmptyFab = findViewById(R.id.fab_empty);
+        mErrorFab = findViewById(R.id.fab_error);
+        mNoNetworkFab = findViewById(R.id.fab_no_network);
+        mContentFab = findViewById(R.id.fab_content);
         mLoadingFab.setOnClickListener(this);
         mEmptyFab.setOnClickListener(this);
         mErrorFab.setOnClickListener(this);

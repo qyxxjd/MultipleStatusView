@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    resourcePrefix rootProject.ext.resourcePrefix
+    // resourcePrefix rootProject.ext.resourcePrefix
 
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -23,4 +23,4 @@ android {
 
 dependencies { }
 
-// apply from: "upload.gradle"
+apply from: "upload.gradle"

@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
-import com.classic.common.MultipleStatusView;
 
 public class ListActivity extends AbsActivity {
 
@@ -18,8 +17,8 @@ public class ListActivity extends AbsActivity {
     @Override void initView() {
         setContentView(R.layout.activity_list);
         setTitle("ListActivity");
-        mMultipleStatusView = (MultipleStatusView)findViewById(R.id.list_multiple_status_view);
-        mRecyclerView = (RecyclerView)mMultipleStatusView.findViewById(R.id.recycler_view);
+        mMultipleStatusView = findViewById(R.id.list_multiple_status_view);
+        mRecyclerView = mMultipleStatusView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mNewsAdapter = new NewsAdapter(this);

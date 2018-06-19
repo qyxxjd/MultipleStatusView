@@ -42,8 +42,8 @@ import java.util.ArrayList;
     private int  mNoNetworkViewResId;
     private int  mContentViewResId;
 
-    private int             mViewStatus;
-    private LayoutInflater  mInflater;
+    private int mViewStatus;
+    private final LayoutInflater mInflater;
     private OnClickListener mOnRetryClickListener;
 
     private final ArrayList<Integer> mOtherIds = new ArrayList<>();
@@ -82,7 +82,6 @@ import java.util.ArrayList;
         if (null != mOnRetryClickListener) {
             mOnRetryClickListener = null;
         }
-        mInflater = null;
     }
 
     /**
@@ -110,6 +109,7 @@ import java.util.ArrayList;
 
     /**
      * 显示空视图
+     *
      * @param layoutId 自定义布局文件
      * @param layoutParams 布局参数
      */
@@ -119,11 +119,13 @@ import java.util.ArrayList;
 
     /**
      * 显示空视图
+     *
      * @param view 自定义视图
      * @param layoutParams 布局参数
      */
     public final void showEmpty(View view, ViewGroup.LayoutParams layoutParams) {
-        checkNull(view, "Empty view is null!");
+        checkNull(view, "Empty view is null.");
+        checkNull(layoutParams, "Layout params is null.");
         mViewStatus = STATUS_EMPTY;
         if (null == mEmptyView) {
             mEmptyView = view;
@@ -146,6 +148,7 @@ import java.util.ArrayList;
 
     /**
      * 显示错误视图
+     *
      * @param layoutId 自定义布局文件
      * @param layoutParams 布局参数
      */
@@ -155,11 +158,13 @@ import java.util.ArrayList;
 
     /**
      * 显示错误视图
+     *
      * @param view 自定义视图
      * @param layoutParams 布局参数
      */
     public final void showError(View view, ViewGroup.LayoutParams layoutParams) {
-        checkNull(view, "Error view is null!");
+        checkNull(view, "Error view is null.");
+        checkNull(layoutParams, "Layout params is null.");
         mViewStatus = STATUS_ERROR;
         if (null == mErrorView) {
             mErrorView = view;
@@ -182,6 +187,7 @@ import java.util.ArrayList;
 
     /**
      * 显示加载中视图
+     *
      * @param layoutId 自定义布局文件
      * @param layoutParams 布局参数
      */
@@ -191,11 +197,13 @@ import java.util.ArrayList;
 
     /**
      * 显示加载中视图
+     *
      * @param view 自定义视图
      * @param layoutParams 布局参数
      */
     public final void showLoading(View view, ViewGroup.LayoutParams layoutParams) {
-        checkNull(view, "Loading view is null!");
+        checkNull(view, "Loading view is null.");
+        checkNull(layoutParams, "Layout params is null.");
         mViewStatus = STATUS_LOADING;
         if (null == mLoadingView) {
             mLoadingView = view;
@@ -214,6 +222,7 @@ import java.util.ArrayList;
 
     /**
      * 显示无网络视图
+     *
      * @param layoutId 自定义布局文件
      * @param layoutParams 布局参数
      */
@@ -223,11 +232,13 @@ import java.util.ArrayList;
 
     /**
      * 显示无网络视图
+     *
      * @param view 自定义视图
      * @param layoutParams 布局参数
      */
     public final void showNoNetwork(View view, ViewGroup.LayoutParams layoutParams) {
-        checkNull(view, "No network view is null!");
+        checkNull(view, "No network view is null.");
+        checkNull(layoutParams, "Layout params is null.");
         mViewStatus = STATUS_NO_NETWORK;
         if (null == mNoNetworkView) {
             mNoNetworkView = view;
@@ -253,12 +264,30 @@ import java.util.ArrayList;
         showContentView();
     }
 
-    private void showContentView() {
-        final int childCount = getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View view = getChildAt(i);
-            view.setVisibility(mOtherIds.contains(view.getId()) ? View.GONE : View.VISIBLE);
-        }
+    /**
+     * 显示内容视图
+     *
+     * @param layoutId 自定义布局文件
+     * @param layoutParams 布局参数
+     */
+    public final void showContent(int layoutId, ViewGroup.LayoutParams layoutParams) {
+        showContent(inflateView(layoutId), layoutParams);
+    }
+
+    /**
+     * 显示内容视图
+     *
+     * @param view 自定义视图
+     * @param layoutParams 布局参数
+     */
+    public final void showContent(View view, ViewGroup.LayoutParams layoutParams) {
+        checkNull(view, "Content view is null.");
+        checkNull(layoutParams, "Layout params is null.");
+        mViewStatus = STATUS_CONTENT;
+        clear(mContentView);
+        mContentView = view;
+        addView(mContentView, 0, layoutParams);
+        showViewById(mContentView.getId());
     }
 
     private View inflateView(int layoutId) {
@@ -270,6 +299,14 @@ import java.util.ArrayList;
         for (int i = 0; i < childCount; i++) {
             View view = getChildAt(i);
             view.setVisibility(view.getId() == viewId ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    private void showContentView() {
+        final int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View view = getChildAt(i);
+            view.setVisibility(mOtherIds.contains(view.getId()) ? View.GONE : View.VISIBLE);
         }
     }
 

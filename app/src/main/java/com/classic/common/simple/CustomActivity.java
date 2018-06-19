@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.classic.common.MultipleStatusView;
-
 public class CustomActivity extends AbsActivity {
 
     private final RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(
@@ -21,7 +19,7 @@ public class CustomActivity extends AbsActivity {
     @Override void initView() {
         setContentView(R.layout.activity_custom);
         setTitle("CustomActivity");
-        mMultipleStatusView = (MultipleStatusView)findViewById(R.id.custom_multiple_status_view);
+        mMultipleStatusView = findViewById(R.id.custom_multiple_status_view);
         mMultipleStatusView.setOnRetryClickListener(mRetryClickListener);
         mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
     }
@@ -53,7 +51,7 @@ public class CustomActivity extends AbsActivity {
                 mMultipleStatusView.showNoNetwork(mNoNetworkView, mLayoutParams);
                 break;
             case R.id.fab_content:
-                mMultipleStatusView.showContent();
+                mMultipleStatusView.showContent(R.layout.custom_content_view, mLayoutParams);
                 break;
         }
         mFloatingActionMenu.toggle(false);
