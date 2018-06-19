@@ -64,6 +64,8 @@ multipleStatusView.showNoNetwork();
 
 //显示内容视图
 multipleStatusView.showContent();
+// multipleStatusView.showContent(R.layout.xxx, layoutParams);
+// multipleStatusView.showContent(customView, layoutParams);
 
 //设置重试视图点击事件
 multipleStatusView.setOnRetryClickListener(onRetryClickListener);
