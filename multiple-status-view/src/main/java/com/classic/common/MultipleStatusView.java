@@ -114,7 +114,7 @@ import java.util.ArrayList;
      * @param layoutParams 布局参数
      */
     public final void showEmpty(int layoutId, ViewGroup.LayoutParams layoutParams) {
-        showEmpty(inflateView(layoutId), layoutParams);
+        showEmpty(null == mEmptyView ? inflateView(layoutId) : mEmptyView, layoutParams);
     }
 
     /**
@@ -153,7 +153,7 @@ import java.util.ArrayList;
      * @param layoutParams 布局参数
      */
     public final void showError(int layoutId, ViewGroup.LayoutParams layoutParams) {
-        showError(inflateView(layoutId), layoutParams);
+        showError(null == mErrorView ? inflateView(layoutId) : mErrorView, layoutParams);
     }
 
     /**
@@ -192,7 +192,7 @@ import java.util.ArrayList;
      * @param layoutParams 布局参数
      */
     public final void showLoading(int layoutId, ViewGroup.LayoutParams layoutParams) {
-        showLoading(inflateView(layoutId), layoutParams);
+        showLoading(null == mLoadingView ? inflateView(layoutId) : mLoadingView, layoutParams);
     }
 
     /**
@@ -227,7 +227,7 @@ import java.util.ArrayList;
      * @param layoutParams 布局参数
      */
     public final void showNoNetwork(int layoutId, ViewGroup.LayoutParams layoutParams) {
-        showNoNetwork(inflateView(layoutId), layoutParams);
+        showNoNetwork(null == mNoNetworkView ? inflateView(layoutId) : mNoNetworkView, layoutParams);
     }
 
     /**
