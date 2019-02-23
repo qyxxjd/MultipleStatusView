@@ -21,6 +21,7 @@ android {
     }
 }
 
-dependencies { }
+dependencies {
+}
 
 apply from: "upload.gradle"

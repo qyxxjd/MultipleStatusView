@@ -12,21 +12,22 @@ import java.util.ArrayList;
 
 /**
  * 类描述：  一个方便在多种状态切换的view
- *
+ * <p>
  * 创建人:   续写经典
  * 创建时间: 2016/1/15 10:20.
  */
-@SuppressWarnings("unused") public class MultipleStatusView extends RelativeLayout {
+@SuppressWarnings("unused")
+public class MultipleStatusView extends RelativeLayout {
     private static final String TAG = "MultipleStatusView";
 
     private static final RelativeLayout.LayoutParams DEFAULT_LAYOUT_PARAMS =
             new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                                            RelativeLayout.LayoutParams.MATCH_PARENT);
+                    RelativeLayout.LayoutParams.MATCH_PARENT);
 
-    public static final int STATUS_CONTENT    = 0x00;
-    public static final int STATUS_LOADING    = 0x01;
-    public static final int STATUS_EMPTY      = 0x02;
-    public static final int STATUS_ERROR      = 0x03;
+    public static final int STATUS_CONTENT = 0x00;
+    public static final int STATUS_LOADING = 0x01;
+    public static final int STATUS_EMPTY = 0x02;
+    public static final int STATUS_ERROR = 0x03;
     public static final int STATUS_NO_NETWORK = 0x04;
 
     private static final int NULL_RESOURCE_ID = -1;
@@ -36,15 +37,16 @@ import java.util.ArrayList;
     private View mLoadingView;
     private View mNoNetworkView;
     private View mContentView;
-    private int  mEmptyViewResId;
-    private int  mErrorViewResId;
-    private int  mLoadingViewResId;
-    private int  mNoNetworkViewResId;
-    private int  mContentViewResId;
+    private int mEmptyViewResId;
+    private int mErrorViewResId;
+    private int mLoadingViewResId;
+    private int mNoNetworkViewResId;
+    private int mContentViewResId;
 
-    private int mViewStatus;
+    private int mViewStatus = -1;
     private final LayoutInflater mInflater;
     private OnClickListener mOnRetryClickListener;
+    private OnViewStatusChangeListener mViewStatusListener;
 
     private final ArrayList<Integer> mOtherIds = new ArrayList<>();
 
@@ -68,12 +70,14 @@ import java.util.ArrayList;
         mInflater = LayoutInflater.from(getContext());
     }
 
-    @Override protected void onFinishInflate() {
+    @Override
+    protected void onFinishInflate() {
         super.onFinishInflate();
         showContent();
     }
 
-    @Override protected void onDetachedFromWindow() {
+    @Override
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         clear(mEmptyView, mLoadingView, mErrorView, mNoNetworkView);
         if (null != mOtherIds) {
@@ -81,6 +85,9 @@ import java.util.ArrayList;
         }
         if (null != mOnRetryClickListener) {
             mOnRetryClickListener = null;
+        }
+        if (null != mViewStatusListener) {
+            mViewStatusListener = null;
         }
     }
 
@@ -110,7 +117,7 @@ import java.util.ArrayList;
     /**
      * 显示空视图
      *
-     * @param layoutId 自定义布局文件
+     * @param layoutId     自定义布局文件
      * @param layoutParams 布局参数
      */
     public final void showEmpty(int layoutId, ViewGroup.LayoutParams layoutParams) {
@@ -120,13 +127,13 @@ import java.util.ArrayList;
     /**
      * 显示空视图
      *
-     * @param view 自定义视图
+     * @param view         自定义视图
      * @param layoutParams 布局参数
      */
     public final void showEmpty(View view, ViewGroup.LayoutParams layoutParams) {
         checkNull(view, "Empty view is null.");
         checkNull(layoutParams, "Layout params is null.");
-        mViewStatus = STATUS_EMPTY;
+        changeViewStatus(STATUS_EMPTY);
         if (null == mEmptyView) {
             mEmptyView = view;
             View emptyRetryView = mEmptyView.findViewById(R.id.empty_retry_view);
@@ -149,7 +156,7 @@ import java.util.ArrayList;
     /**
      * 显示错误视图
      *
-     * @param layoutId 自定义布局文件
+     * @param layoutId     自定义布局文件
      * @param layoutParams 布局参数
      */
     public final void showError(int layoutId, ViewGroup.LayoutParams layoutParams) {
@@ -159,13 +166,13 @@ import java.util.ArrayList;
     /**
      * 显示错误视图
      *
-     * @param view 自定义视图
+     * @param view         自定义视图
      * @param layoutParams 布局参数
      */
     public final void showError(View view, ViewGroup.LayoutParams layoutParams) {
         checkNull(view, "Error view is null.");
         checkNull(layoutParams, "Layout params is null.");
-        mViewStatus = STATUS_ERROR;
+        changeViewStatus(STATUS_ERROR);
         if (null == mErrorView) {
             mErrorView = view;
             View errorRetryView = mErrorView.findViewById(R.id.error_retry_view);
@@ -188,7 +195,7 @@ import java.util.ArrayList;
     /**
      * 显示加载中视图
      *
-     * @param layoutId 自定义布局文件
+     * @param layoutId     自定义布局文件
      * @param layoutParams 布局参数
      */
     public final void showLoading(int layoutId, ViewGroup.LayoutParams layoutParams) {
@@ -198,13 +205,13 @@ import java.util.ArrayList;
     /**
      * 显示加载中视图
      *
-     * @param view 自定义视图
+     * @param view         自定义视图
      * @param layoutParams 布局参数
      */
     public final void showLoading(View view, ViewGroup.LayoutParams layoutParams) {
         checkNull(view, "Loading view is null.");
         checkNull(layoutParams, "Layout params is null.");
-        mViewStatus = STATUS_LOADING;
+        changeViewStatus(STATUS_LOADING);
         if (null == mLoadingView) {
             mLoadingView = view;
             mOtherIds.add(mLoadingView.getId());
@@ -223,7 +230,7 @@ import java.util.ArrayList;
     /**
      * 显示无网络视图
      *
-     * @param layoutId 自定义布局文件
+     * @param layoutId     自定义布局文件
      * @param layoutParams 布局参数
      */
     public final void showNoNetwork(int layoutId, ViewGroup.LayoutParams layoutParams) {
@@ -233,13 +240,13 @@ import java.util.ArrayList;
     /**
      * 显示无网络视图
      *
-     * @param view 自定义视图
+     * @param view         自定义视图
      * @param layoutParams 布局参数
      */
     public final void showNoNetwork(View view, ViewGroup.LayoutParams layoutParams) {
         checkNull(view, "No network view is null.");
         checkNull(layoutParams, "Layout params is null.");
-        mViewStatus = STATUS_NO_NETWORK;
+        changeViewStatus(STATUS_NO_NETWORK);
         if (null == mNoNetworkView) {
             mNoNetworkView = view;
             View noNetworkRetryView = mNoNetworkView.findViewById(R.id.no_network_retry_view);
@@ -256,7 +263,7 @@ import java.util.ArrayList;
      * 显示内容视图
      */
     public final void showContent() {
-        mViewStatus = STATUS_CONTENT;
+        changeViewStatus(STATUS_CONTENT);
         if (null == mContentView && mContentViewResId != NULL_RESOURCE_ID) {
             mContentView = mInflater.inflate(mContentViewResId, null);
             addView(mContentView, 0, DEFAULT_LAYOUT_PARAMS);
@@ -267,7 +274,7 @@ import java.util.ArrayList;
     /**
      * 显示内容视图
      *
-     * @param layoutId 自定义布局文件
+     * @param layoutId     自定义布局文件
      * @param layoutParams 布局参数
      */
     public final void showContent(int layoutId, ViewGroup.LayoutParams layoutParams) {
@@ -277,13 +284,13 @@ import java.util.ArrayList;
     /**
      * 显示内容视图
      *
-     * @param view 自定义视图
+     * @param view         自定义视图
      * @param layoutParams 布局参数
      */
     public final void showContent(View view, ViewGroup.LayoutParams layoutParams) {
         checkNull(view, "Content view is null.");
         checkNull(layoutParams, "Layout params is null.");
-        mViewStatus = STATUS_CONTENT;
+        changeViewStatus(STATUS_CONTENT);
         clear(mContentView);
         mContentView = view;
         addView(mContentView, 0, layoutParams);
@@ -328,6 +335,34 @@ import java.util.ArrayList;
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 视图状态改变接口
+     */
+    public interface OnViewStatusChangeListener {
+        void onChange(int viewStatus);
+    }
+
+    /**
+     * 设置视图状态改变监听事件
+     *
+     * @param onViewStatusChangeListener 视图状态改变监听事件
+     */
+    public void setOnViewStatusChangeListener(OnViewStatusChangeListener onViewStatusChangeListener) {
+        this.mViewStatusListener = onViewStatusChangeListener;
+    }
+
+    /**
+     * 修复状态视图的值
+     *
+     * @param viewStatus 当前的视图状态
+     */
+    private void changeViewStatus(int viewStatus) {
+        mViewStatus = viewStatus;
+        if (null != mViewStatusListener) {
+            mViewStatusListener.onChange(mViewStatus);
         }
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -46,6 +47,7 @@ public abstract class AbsActivity extends AppCompatActivity implements View.OnCl
         mNoNetworkFab.setOnClickListener(this);
         mContentFab.setOnClickListener(this);
         mMultipleStatusView.setOnRetryClickListener(mRetryClickListener);
+        mMultipleStatusView.setOnViewStatusChangeListener(mViewStatusChangeListener);
     }
 
     void loading() {
@@ -61,6 +63,13 @@ public abstract class AbsActivity extends AppCompatActivity implements View.OnCl
         @Override public void onClick(View v) {
             Toast.makeText(getApplicationContext(), "您点击了重试视图", Toast.LENGTH_SHORT).show();
             loading();
+        }
+    };
+
+    final MultipleStatusView.OnViewStatusChangeListener mViewStatusChangeListener = new MultipleStatusView.OnViewStatusChangeListener() {
+        @Override
+        public void onChange(int viewStatus) {
+            Log.d("MultipleStatusView", "viewStatus=" + viewStatus);
         }
     };
 
