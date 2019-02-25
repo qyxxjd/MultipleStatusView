@@ -80,7 +80,7 @@ public class MultipleStatusView extends RelativeLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         clear(mEmptyView, mLoadingView, mErrorView, mNoNetworkView);
-        if (null != mOtherIds) {
+        if (!mOtherIds.isEmpty()) {
             mOtherIds.clear();
         }
         if (null != mOnRetryClickListener) {
@@ -93,6 +93,8 @@ public class MultipleStatusView extends RelativeLayout {
 
     /**
      * 获取当前状态
+     *
+     * @return 视图状态
      */
     public int getViewStatus() {
         return mViewStatus;
@@ -342,11 +344,13 @@ public class MultipleStatusView extends RelativeLayout {
      * 视图状态改变接口
      */
     public interface OnViewStatusChangeListener {
+
         /**
-         * @param formerViewStatus 切换前的视图状态
-         * @param newViewStatus    切换后的视图状态
+         * 视图状态改变时回调
+         * @param oldViewStatus 之前的视图状态
+         * @param newViewStatus 新的视图状态
          */
-        void onChange(int formerViewStatus, int newViewStatus);
+        void onChange(int oldViewStatus, int newViewStatus);
     }
 
     /**
@@ -359,15 +363,17 @@ public class MultipleStatusView extends RelativeLayout {
     }
 
     /**
-     * 修复状态视图的值
+     * 改变视图状态
      *
-     * @param viewStatus 当前的视图状态
+     * @param newViewStatus 新的视图状态
      */
-    private void changeViewStatus(int viewStatus) {
-        if (null != mViewStatusListener) {
-            mViewStatusListener.onChange(mViewStatus, viewStatus);
+    private void changeViewStatus(int newViewStatus) {
+        if (mViewStatus == newViewStatus) {
+            return;
         }
-        mViewStatus = viewStatus;
-
+        if (null != mViewStatusListener) {
+            mViewStatusListener.onChange(mViewStatus, newViewStatus);
+        }
+        mViewStatus = newViewStatus;
     }
 }

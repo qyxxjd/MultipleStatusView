@@ -66,13 +66,20 @@ public abstract class AbsActivity extends AppCompatActivity implements View.OnCl
         }
     };
 
-    final MultipleStatusView.OnViewStatusChangeListener mViewStatusChangeListener = new MultipleStatusView.OnViewStatusChangeListener() {
-        @Override
-        public void onChange(int formerViewStatus, int newViewStatus) {
-            Log.d("MultipleStatusView", "formerViewStatus=" +
-                    formerViewStatus + ",newViewStatus=" + newViewStatus);
-        }
+    final MultipleStatusView.OnViewStatusChangeListener mViewStatusChangeListener =
+            new MultipleStatusView.OnViewStatusChangeListener() {
 
+        /**
+         * 视图状态改变时回调
+         *
+         * @param oldViewStatus 之前的视图状态
+         * @param newViewStatus 新的视图状态
+         */
+        @Override
+        public void onChange(int oldViewStatus, int newViewStatus) {
+            Log.d("MultipleStatusView", "oldViewStatus=" + oldViewStatus
+                    + ", newViewStatus=" + newViewStatus);
+        }
     };
 
     @Override public void onClick(View v) {
