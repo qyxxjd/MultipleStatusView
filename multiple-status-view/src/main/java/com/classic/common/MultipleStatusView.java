@@ -342,7 +342,11 @@ public class MultipleStatusView extends RelativeLayout {
      * 视图状态改变接口
      */
     public interface OnViewStatusChangeListener {
-        void onChange(int viewStatus);
+        /**
+         * @param formerViewStatus 切换前的视图状态
+         * @param newViewStatus    切换后的视图状态
+         */
+        void onChange(int formerViewStatus, int newViewStatus);
     }
 
     /**
@@ -360,9 +364,10 @@ public class MultipleStatusView extends RelativeLayout {
      * @param viewStatus 当前的视图状态
      */
     private void changeViewStatus(int viewStatus) {
-        mViewStatus = viewStatus;
         if (null != mViewStatusListener) {
-            mViewStatusListener.onChange(mViewStatus);
+            mViewStatusListener.onChange(mViewStatus, viewStatus);
         }
+        mViewStatus = viewStatus;
+
     }
 }
