@@ -70,6 +70,9 @@ multipleStatusView.showContent();
 //设置重试视图点击事件
 multipleStatusView.setOnRetryClickListener(onRetryClickListener);
 
+//设置视图状态切换监听事件
+mMultipleStatusView.setOnViewStatusChangeListener(OnViewStatusChangeListener);
+
 /**
 * 获取当前view的状态
 *      MultipleStatusView.STATUS_LOADING   //当前为加载中视图
