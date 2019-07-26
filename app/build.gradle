@@ -20,8 +20,8 @@ android {
 }
 
 dependencies {
-    // implementation project(':multiple-status-view')
-    implementation rootProject.ext.multipleStatusView
+     implementation project(':multiple-status-view')
+//    implementation rootProject.ext.multipleStatusView
     implementation rootProject.ext.supportAppcompatV7
     implementation rootProject.ext.supportRecyclerView
     implementation rootProject.ext.supportDesign
