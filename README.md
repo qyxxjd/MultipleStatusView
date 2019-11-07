@@ -1,8 +1,8 @@
 <p>
   <a href="https://developer.android.com/reference/android/os/Build.VERSION_CODES.html#ICE_CREAM_SANDWICH"><img src="https://img.shields.io/badge/API-14%2B-blue.svg?style=flat" alt="API" /></a>
   <a href="javascript:void(0);"><img src="https://img.shields.io/badge/Version-v1.6-brightgreen.svg" alt="Library version" /></a>
-  <a href="http://www.methodscount.com/?lib=com.classic.common%3Amultiple-status-view%3A1.6"><img src="https://img.shields.io/badge/Methods count-52-e91e63.svg"/></a>
-  <a href="http://www.methodscount.com/?lib=com.classic.common%3Amultiple-status-view%3A1.6"><img src="https://img.shields.io/badge/Size-7 KB-e91e63.svg"/></a>
+  <a href="http://www.methodscount.com/?lib=com.classic.common%3Amultiple-status-view%3A1.7"><img src="https://img.shields.io/badge/Methods count-52-e91e63.svg"/></a>
+  <a href="http://www.methodscount.com/?lib=com.classic.common%3Amultiple-status-view%3A1.7"><img src="https://img.shields.io/badge/Size-7 KB-e91e63.svg"/></a>
   <a href="LICENSE.txt"><img src="https://img.shields.io/npm/l/express.svg?maxAge=2592000" alt="License" /></a>
 </p>
 
@@ -13,7 +13,7 @@
 - 网络异常视图
 - 内容视图
 
-[apk下载](https://github.com/qyxxjd/MultipleStatusView/blob/master/apk/MultipleStatusView.apk?raw=true)
+[apk下载](https://github.com/qyxxjd/MultipleStatusView/blob/master/apk/MultipleStatusView_1.7_9.apk?raw=true)
 
 ![](https://github.com/qyxxjd/MultipleStatusView/blob/master/screenshots/demo.gif)
 
@@ -21,7 +21,7 @@
 
 ```gradle
 dependencies {
-    implementation 'com.classic.common:multiple-status-view:1.6'
+    implementation 'com.classic.common:multiple-status-view:1.7'
 }
 ```
 
@@ -44,21 +44,29 @@ MultipleStatusView multipleStatusView = (MultipleStatusView) findViewById(R.id.m
 
 //显示加载中视图
 multipleStatusView.showLoading();
+// mMultipleStatusView.showLoading("自定义提示内容");
+// mMultipleStatusView.showLoading(R.string.custom_hint_content, "占位符1", "占位符2", "...");
 // multipleStatusView.showLoading(R.layout.xxx, layoutParams);
 // multipleStatusView.showLoading(customView, layoutParams);
 
 //显示空视图
 multipleStatusView.showEmpty();
+// mMultipleStatusView.showEmpty("自定义提示内容");
+// mMultipleStatusView.showEmpty(R.string.custom_hint_content, "占位符1", "占位符2", "...");
 // multipleStatusView.showEmpty(R.layout.xxx, layoutParams);
 // multipleStatusView.showEmpty(customView, layoutParams);
 
 //显示错误视图
 multipleStatusView.showError();
+// mMultipleStatusView.showError("自定义提示内容");
+// mMultipleStatusView.showError(R.string.custom_hint_content, "占位符1", "占位符2", "...");
 // multipleStatusView.showError(R.layout.xxx, layoutParams);
 // multipleStatusView.showError(customView, layoutParams);
 
 //显示无网络视图
 multipleStatusView.showNoNetwork();
+// mMultipleStatusView.showNoNetwork("自定义提示内容");
+// mMultipleStatusView.showNoNetwork(R.string.custom_hint_content, "占位符1", "占位符2", "...");
 // multipleStatusView.showNoNetwork(R.layout.xxx, layoutParams);
 // multipleStatusView.showNoNetwork(customView, layoutParams);
 
@@ -138,6 +146,7 @@ app:noNetworkView="@layout/..."
 - 空视图的id必须为：`empty_view`
 - 错误视图的id必须为：`error_view`
 - 无网络视图的id必须为：`no_network_view`
+- 自定义提示文本的id必须为：`status_hint_content`
 
 
 #### 2. 如果需要点击某个 `view` 进行重试, 需要设置:
@@ -168,6 +177,7 @@ tv.setText(text);
 
 感谢以下人员贡献的代码
 - [Lindroy](https://github.com/Lindroy)
+- [GaoXiaoHui](https://github.com/gao746700783)
 
 
 ## 关于

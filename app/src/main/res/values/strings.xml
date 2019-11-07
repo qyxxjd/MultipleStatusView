@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MultipleStatusView</string>
     <string name="title_activity_list">ListActivity</string>
+    <string name="test_hint_content">自定义提示内容，%s占位符测试%s</string>
 </resources>

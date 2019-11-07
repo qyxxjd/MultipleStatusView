@@ -19,9 +19,19 @@ android {
     }
 }
 
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = new StringBuilder().append("MultipleStatusView")
+            .append("_").append(variant.versionName)
+            .append("_").append(variant.versionCode)
+            .append(".apk")
+            .toString()
+    }
+}
+
 dependencies {
-     implementation project(':multiple-status-view')
-//    implementation rootProject.ext.multipleStatusView
+    // implementation project(':multiple-status-view')
+    implementation rootProject.ext.multipleStatusView
     implementation rootProject.ext.supportAppcompatV7
     implementation rootProject.ext.supportRecyclerView
     implementation rootProject.ext.supportDesign
