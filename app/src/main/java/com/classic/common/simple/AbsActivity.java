@@ -15,7 +15,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 public abstract class AbsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    static final int DELAY = 5000;
+    static final int DELAY = 2000;
 
     MultipleStatusView   mMultipleStatusView;
     FloatingActionMenu   mFloatingActionMenu;
@@ -24,6 +24,14 @@ public abstract class AbsActivity extends AppCompatActivity implements View.OnCl
     FloatingActionButton mErrorFab;
     FloatingActionButton mNoNetworkFab;
     FloatingActionButton mContentFab;
+
+    private final Runnable callback = new Runnable() {
+        @Override public void run() {
+            if (!isFinishing() && null != mMultipleStatusView) {
+                mMultipleStatusView.showContent();
+            }
+        }
+    };
 
     abstract void initView();
 
@@ -50,13 +58,15 @@ public abstract class AbsActivity extends AppCompatActivity implements View.OnCl
         mMultipleStatusView.setOnViewStatusChangeListener(mViewStatusChangeListener);
     }
 
+    @Override
+    protected void onDestroy() {
+        if (null != mMultipleStatusView) mMultipleStatusView.removeCallbacks(callback);
+        super.onDestroy();
+    }
+
     void loading() {
         mMultipleStatusView.showLoading();
-        mMultipleStatusView.postDelayed(new Runnable() {
-            @Override public void run() {
-                mMultipleStatusView.showContent();
-            }
-        }, DELAY);
+        mMultipleStatusView.postDelayed(callback, DELAY);
     }
 
     final View.OnClickListener mRetryClickListener = new View.OnClickListener() {
@@ -88,13 +98,16 @@ public abstract class AbsActivity extends AppCompatActivity implements View.OnCl
                 loading();
                 break;
             case R.id.fab_empty:
-                mMultipleStatusView.showEmpty();
+                // mMultipleStatusView.showEmpty();
+                mMultipleStatusView.showEmpty(R.string.test_hint_content, "aa", "bb");
                 break;
             case R.id.fab_error:
-                mMultipleStatusView.showError();
+                // mMultipleStatusView.showError();
+                mMultipleStatusView.showError("自定义错误文本");
                 break;
             case R.id.fab_no_network:
-                mMultipleStatusView.showNoNetwork();
+                // mMultipleStatusView.showNoNetwork();
+                mMultipleStatusView.showNoNetwork("自定义无网络文本");
                 break;
             case R.id.fab_content:
                 mMultipleStatusView.showContent();

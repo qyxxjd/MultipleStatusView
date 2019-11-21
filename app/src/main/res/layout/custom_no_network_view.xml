@@ -14,7 +14,7 @@
 
     <TextView
         style="@style/MultipleStatusView.Content"
-        android:id="@+id/no_network_view_tv"
+        android:id="@+id/status_hint_content"
         android:layout_below="@id/no_network_retry_view"
         android:text="@string/no_network_view_hint"/>
 </RelativeLayout>

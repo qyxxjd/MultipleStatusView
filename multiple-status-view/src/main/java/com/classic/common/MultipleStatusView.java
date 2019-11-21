@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
+import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
@@ -122,6 +122,27 @@ public class MultipleStatusView extends RelativeLayout {
     /**
      * 显示空视图
      *
+     * @param hintResId 自定义提示文本内容
+     * @param formatArgs 占位符参数
+     */
+    public final void showEmpty(int hintResId, Object... formatArgs) {
+        showEmpty();
+        setStatusHintContent(mEmptyView, hintResId, formatArgs);
+    }
+
+    /**
+     * 显示空视图
+     *
+     * @param hint 自定义提示文本内容
+     */
+    public final void showEmpty(String hint) {
+        showEmpty();
+        setStatusHintContent(mEmptyView, hint);
+    }
+
+    /**
+     * 显示空视图
+     *
      * @param layoutId     自定义布局文件
      * @param layoutParams 布局参数
      */
@@ -156,6 +177,27 @@ public class MultipleStatusView extends RelativeLayout {
      */
     public final void showError() {
         showError(mErrorViewResId, DEFAULT_LAYOUT_PARAMS);
+    }
+
+    /**
+     * 显示错误视图
+     *
+     * @param hintResId 自定义提示文本内容
+     * @param formatArgs 占位符参数
+     */
+    public final void showError(int hintResId, Object... formatArgs) {
+        showError();
+        setStatusHintContent(mErrorView, hintResId, formatArgs);
+    }
+
+    /**
+     * 显示错误视图
+     *
+     * @param hint 自定义提示文本内容
+     */
+    public final void showError(String hint) {
+        showError();
+        setStatusHintContent(mErrorView, hint);
     }
 
     /**
@@ -200,6 +242,27 @@ public class MultipleStatusView extends RelativeLayout {
     /**
      * 显示加载中视图
      *
+     * @param hintResId 自定义提示文本内容
+     * @param formatArgs 占位符参数
+     */
+    public final void showLoading(int hintResId, Object... formatArgs) {
+        showLoading();
+        setStatusHintContent(mLoadingView, hintResId, formatArgs);
+    }
+
+    /**
+     * 显示加载中视图
+     *
+     * @param hint 自定义提示文本内容
+     */
+    public final void showLoading(String hint) {
+        showLoading();
+        setStatusHintContent(mLoadingView, hint);
+    }
+
+    /**
+     * 显示加载中视图
+     *
      * @param layoutId     自定义布局文件
      * @param layoutParams 布局参数
      */
@@ -230,6 +293,27 @@ public class MultipleStatusView extends RelativeLayout {
      */
     public final void showNoNetwork() {
         showNoNetwork(mNoNetworkViewResId, DEFAULT_LAYOUT_PARAMS);
+    }
+
+    /**
+     * 显示无网络视图
+     *
+     * @param hintResId 自定义提示文本内容
+     * @param formatArgs 占位符参数
+     */
+    public final void showNoNetwork(int hintResId, Object... formatArgs) {
+        showNoNetwork();
+        setStatusHintContent(mNoNetworkView, hintResId, formatArgs);
+    }
+
+    /**
+     * 显示无网络视图
+     *
+     * @param hint 自定义提示文本内容
+     */
+    public final void showNoNetwork(String hint) {
+        showNoNetwork();
+        setStatusHintContent(mNoNetworkView, hint);
     }
 
     /**
@@ -300,6 +384,21 @@ public class MultipleStatusView extends RelativeLayout {
         mContentView = view;
         addView(mContentView, 0, layoutParams);
         showViewById(mContentView.getId());
+    }
+
+    private void setStatusHintContent(View view, int resId, Object... formatArgs) {
+        checkNull(view, "Target view is null.");
+        setStatusHintContent(view, view.getContext().getString(resId, formatArgs));
+    }
+
+    private void setStatusHintContent(View view, String hint) {
+        checkNull(view, "Target view is null.");
+        TextView hintView = view.findViewById(R.id.status_hint_content);
+        if (null != hintView) {
+            hintView.setText(hint);
+        } else {
+            throw new NullPointerException("Not find the view ID `status_hint_content`");
+        }
     }
 
     private View inflateView(int layoutId) {
@@ -385,13 +484,11 @@ public class MultipleStatusView extends RelativeLayout {
     private void setContentViewResId(int contentViewResId) {
         this.mContentViewResId = contentViewResId;
         this.mContentView = mInflater.inflate(mContentViewResId, null);
-
         addView(mContentView, 0, DEFAULT_LAYOUT_PARAMS);
     }
 
     private void setContentView(ViewGroup contentView) {
         this.mContentView = contentView;
-
         addView(mContentView, 0, DEFAULT_LAYOUT_PARAMS);
     }
 
@@ -399,7 +496,6 @@ public class MultipleStatusView extends RelativeLayout {
         if (null == fragment || fragment.getView() == null) {
             throw new IllegalArgumentException("fragment is null or fragment.getView is null");
         }
-
         if (-1 != rootAnchor) {
             ViewGroup contentAnchor = fragment.getView().findViewById(rootAnchor);
             if (null != contentAnchor) {
@@ -417,7 +513,6 @@ public class MultipleStatusView extends RelativeLayout {
                 attach(contentAnchor);
             }
         }
-
         ViewGroup defaultAnchor = activity.findViewById(android.R.id.content);
         return attach(defaultAnchor);
     }
@@ -426,21 +521,16 @@ public class MultipleStatusView extends RelativeLayout {
         if (null == rootAnchor) {
             throw new IllegalArgumentException("root Anchor View can't be null");
         }
-
         ViewGroup parent = (ViewGroup) rootAnchor.getParent();
         int anchorIndex = parent.indexOfChild(rootAnchor);
         if (-1 != anchorIndex) {
             parent.removeView(rootAnchor);
-
             MultipleStatusView statusView = new MultipleStatusView(rootAnchor.getContext());
             statusView.setContentView(rootAnchor);
-
             ViewGroup.LayoutParams p = rootAnchor.getLayoutParams();
-            parent.addView(statusView,anchorIndex, p);
-
+            parent.addView(statusView, anchorIndex, p);
             return statusView;
         }
         return null;
     }
-
 }
