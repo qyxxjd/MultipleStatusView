@@ -1,7 +1,9 @@
 package com.classic.common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,7 @@ public class MultipleStatusView extends RelativeLayout {
     private View mLoadingView;
     private View mNoNetworkView;
     private View mContentView;
+
     private int mEmptyViewResId;
     private int mErrorViewResId;
     private int mLoadingViewResId;
@@ -80,7 +83,7 @@ public class MultipleStatusView extends RelativeLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         clear(mEmptyView, mLoadingView, mErrorView, mNoNetworkView);
-        if (null != mOtherIds) {
+        if (!mOtherIds.isEmpty()) {
             mOtherIds.clear();
         }
         if (null != mOnRetryClickListener) {
@@ -93,6 +96,8 @@ public class MultipleStatusView extends RelativeLayout {
 
     /**
      * 获取当前状态
+     *
+     * @return 视图状态
      */
     public int getViewStatus() {
         return mViewStatus;
@@ -342,11 +347,14 @@ public class MultipleStatusView extends RelativeLayout {
      * 视图状态改变接口
      */
     public interface OnViewStatusChangeListener {
+
         /**
-         * @param formerViewStatus 切换前的视图状态
-         * @param newViewStatus    切换后的视图状态
+         * 视图状态改变时回调
+         *
+         * @param oldViewStatus 之前的视图状态
+         * @param newViewStatus 新的视图状态
          */
-        void onChange(int formerViewStatus, int newViewStatus);
+        void onChange(int oldViewStatus, int newViewStatus);
     }
 
     /**
@@ -359,15 +367,80 @@ public class MultipleStatusView extends RelativeLayout {
     }
 
     /**
-     * 修复状态视图的值
+     * 改变视图状态
      *
-     * @param viewStatus 当前的视图状态
+     * @param newViewStatus 新的视图状态
      */
-    private void changeViewStatus(int viewStatus) {
-        if (null != mViewStatusListener) {
-            mViewStatusListener.onChange(mViewStatus, viewStatus);
+    private void changeViewStatus(int newViewStatus) {
+        if (mViewStatus == newViewStatus) {
+            return;
         }
-        mViewStatus = viewStatus;
-
+        if (null != mViewStatusListener) {
+            mViewStatusListener.onChange(mViewStatus, newViewStatus);
+        }
+        mViewStatus = newViewStatus;
     }
+
+
+    private void setContentViewResId(int contentViewResId) {
+        this.mContentViewResId = contentViewResId;
+        this.mContentView = mInflater.inflate(mContentViewResId, null);
+
+        addView(mContentView, 0, DEFAULT_LAYOUT_PARAMS);
+    }
+
+    private void setContentView(ViewGroup contentView) {
+        this.mContentView = contentView;
+
+        addView(mContentView, 0, DEFAULT_LAYOUT_PARAMS);
+    }
+
+    public static MultipleStatusView attach(Fragment fragment, int rootAnchor) {
+        if (null == fragment || fragment.getView() == null) {
+            throw new IllegalArgumentException("fragment is null or fragment.getView is null");
+        }
+
+        if (-1 != rootAnchor) {
+            ViewGroup contentAnchor = fragment.getView().findViewById(rootAnchor);
+            if (null != contentAnchor) {
+                attach(contentAnchor);
+            }
+        }
+        ViewGroup contentParent = (ViewGroup) fragment.getView().getParent();
+        return attach(contentParent);
+    }
+
+    public static MultipleStatusView attach(Activity activity, int rootAnchor) {
+        if (-1 != rootAnchor) {
+            ViewGroup contentAnchor = activity.findViewById(rootAnchor);
+            if (null != contentAnchor) {
+                attach(contentAnchor);
+            }
+        }
+
+        ViewGroup defaultAnchor = activity.findViewById(android.R.id.content);
+        return attach(defaultAnchor);
+    }
+
+    public static MultipleStatusView attach(ViewGroup rootAnchor) {
+        if (null == rootAnchor) {
+            throw new IllegalArgumentException("root Anchor View can't be null");
+        }
+
+        ViewGroup parent = (ViewGroup) rootAnchor.getParent();
+        int anchorIndex = parent.indexOfChild(rootAnchor);
+        if (-1 != anchorIndex) {
+            parent.removeView(rootAnchor);
+
+            MultipleStatusView statusView = new MultipleStatusView(rootAnchor.getContext());
+            statusView.setContentView(rootAnchor);
+
+            ViewGroup.LayoutParams p = rootAnchor.getLayoutParams();
+            parent.addView(statusView,anchorIndex, p);
+
+            return statusView;
+        }
+        return null;
+    }
+
 }

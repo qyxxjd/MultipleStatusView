@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setTitle(R.string.app_name);
         findViewById(R.id.main_simple).setOnClickListener(this);
         findViewById(R.id.main_simple2).setOnClickListener(this);
+        findViewById(R.id.main_simple3).setOnClickListener(this);
         findViewById(R.id.main_custom).setOnClickListener(this);
         findViewById(R.id.main_list).setOnClickListener(this);
         findViewById(R.id.main_refresh).setOnClickListener(this);
@@ -28,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.main_simple2:
                 startActivity(new Intent(this, Simple2Activity.class));
+                break;
+            case R.id.main_simple3:
+                startActivity(new Intent(this, Simple3Activity.class));
                 break;
             case R.id.main_custom:
                 startActivity(new Intent(this, CustomActivity.class));

@@ -22,6 +22,7 @@ android {
 }
 
 dependencies {
+    implementation rootProject.ext.supportAppcompatV7
 }
 
 apply from: "upload.gradle"

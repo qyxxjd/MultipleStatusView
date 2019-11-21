@@ -31,6 +31,14 @@
         <View style="@style/CommonDivider"/>
 
         <TextView
+            android:id="@+id/main_simple3"
+            style="@style/MainContent"
+            android:text="简单布局3"
+        />
+
+        <View style="@style/CommonDivider"/>
+
+        <TextView
             android:id="@+id/main_custom"
             style="@style/MainContent"
             android:text="自定义布局"
