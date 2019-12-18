@@ -133,6 +133,10 @@ int viewStatus = multipleStatusView.getViewStatus();
 
 ## 注意事项
 
+> 必须按如下规则设置对应视图根节点的 `view id`，否则会导致试图重叠  
+> 必须按如下规则设置对应视图根节点的 `view id`，否则会导致试图重叠  
+> 必须按如下规则设置对应视图根节点的 `view id`，否则会导致试图重叠  
+
 #### 1. 如果使用自定义属性
 ```
 app:emptyView="@layout/..."
